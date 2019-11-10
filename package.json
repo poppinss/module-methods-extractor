@@ -68,5 +68,12 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@types/debug": "^4.1.5",
+    "acorn": "^7.1.0",
+    "acorn-walk": "^7.0.0",
+    "debug": "^4.1.1",
+    "quick-lru": "^4.0.1"
   }
 }

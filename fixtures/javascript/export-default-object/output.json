@@ -1,0 +1,13 @@
+{
+  "kind": "object",
+  "methods": [
+    {
+      "name": "foo",
+      "lineno": 3
+    },
+    {
+      "name": "bar",
+      "lineno": 4
+    }
+  ]
+}

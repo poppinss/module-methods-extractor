@@ -1,0 +1,13 @@
+{
+  "kind": "class",
+  "methods": [
+    {
+      "name": "foo",
+      "lineno": 5
+    },
+    {
+      "name": "bar",
+      "lineno": 6
+    }
+  ]
+}
