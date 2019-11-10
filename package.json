@@ -1,6 +1,6 @@
 {
   "name": "@poppinss/module-methods-extractor",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
