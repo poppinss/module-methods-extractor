@@ -101,4 +101,4 @@ In the above example, The `UsersController` is an actual module that has a `defa
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
 
 [license-url]: LICENSE.md
-[license-image]: https://img.shields.io/aur/license/pac.svg?style=for-the-badge
+[license-image]: https://img.shields.io/github/license/poppinss/module-methods-extractor?style=for-the-badge
