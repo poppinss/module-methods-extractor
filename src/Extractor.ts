@@ -61,26 +61,47 @@ export class Extractor {
   }
 
   /**
+   * Finds esm export expresions
+   */
+  private _findEsmExportExpression (node: ts.Statement): null | ts.ClassDeclaration | ts.Expression {
+    /**
+     * Export assignment expressions are returned as it is
+     */
+    if (ts.isExportAssignment(node)) {
+      return node.expression
+    }
+
+    /**
+     * Node is class declaration, so we need to check it's modifiers (if any)
+     * to see if it has `export default`
+     */
+    if (!ts.isClassDeclaration(node) || !node.modifiers) {
+      return null
+    }
+
+    /**
+     * Has export default modifier
+     */
+    if (node.modifiers.find((modifier) => ts.SyntaxKind.DefaultKeyword === modifier.kind)) {
+      return node
+    }
+
+    return null
+  }
+
+  /**
    * Returns the expression next to commonjs or esm default export. Esm
    * named exports are not entertained, since AdonisJs IoC container
    * bindings doesn't allow them as well.
    */
   private _getExportExpression (source: ts.SourceFile): ts.Expression | ts.ClassDeclaration | null {
-    let expression: ts.Expression | null = null
-
-    /**
-     * Return export defaults right away
-     */
-    if (source['externalModuleIndicator']) {
-      debug('located default export "%s"', source['externalModuleIndicator'].kind)
-      return source['externalModuleIndicator'] as (ts.Expression | ts.ClassDeclaration)
-    }
+    let expression: ts.Expression | ts.ClassDeclaration | null = null
 
     /**
      * Look for commonJs style module.exports and exports
      */
     for (let statement of source.statements) {
-      expression = this._findCommonJsExportExpression(statement)
+      expression = this._findCommonJsExportExpression(statement) || this._findEsmExportExpression(statement)
       if (expression) {
         break
       }
