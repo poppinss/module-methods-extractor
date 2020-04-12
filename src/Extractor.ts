@@ -21,13 +21,13 @@ const debug = Debug('module-methods-extractor:js')
  * - Named exports are not supported.
  */
 export class Extractor {
-  private _cache: QuickLRU<string, ExtractorOutput | null> = new QuickLRU({ maxSize: 1000 })
+  private cache: QuickLRU<string, ExtractorOutput | null> = new QuickLRU({ maxSize: 1000 })
 
   /**
    * Returns the expression next to `module.exports` or `exports` or null if
    * unable to find both
    */
-  private _findCommonJsExportExpression (node: ts.Statement): null | ts.Expression {
+  private findCommonJsExportExpression (node: ts.Statement): null | ts.Expression {
     if (!ts.isExpressionStatement(node) || !ts.isBinaryExpression(node.expression)) {
       return null
     }
@@ -63,7 +63,7 @@ export class Extractor {
   /**
    * Finds esm export expresions
    */
-  private _findEsmExportExpression (node: ts.Statement): null | ts.ClassDeclaration | ts.Expression {
+  private findEsmExportExpression (node: ts.Statement): null | ts.ClassDeclaration | ts.Expression {
     /**
      * Export assignment expressions are returned as it is
      */
@@ -94,14 +94,14 @@ export class Extractor {
    * named exports are not entertained, since AdonisJs IoC container
    * bindings doesn't allow them as well.
    */
-  private _getExportExpression (source: ts.SourceFile): ts.Expression | ts.ClassDeclaration | null {
+  private getExportExpression (source: ts.SourceFile): ts.Expression | ts.ClassDeclaration | null {
     let expression: ts.Expression | ts.ClassDeclaration | null = null
 
     /**
      * Look for commonJs style module.exports and exports
      */
     for (let statement of source.statements) {
-      expression = this._findCommonJsExportExpression(statement) || this._findEsmExportExpression(statement)
+      expression = this.findCommonJsExportExpression(statement) || this.findEsmExportExpression(statement)
       if (expression) {
         break
       }
@@ -114,7 +114,7 @@ export class Extractor {
    * Creates a Typescript source file, null is returned when we are unable
    * to process the file.
    */
-  private _createSourceFile (contents: string, options: ExtractorOptions): ts.SourceFile | null {
+  private createSourceFile (contents: string, options: ExtractorOptions): ts.SourceFile | null {
     try {
       return ts.createSourceFile(options.filename, contents, options.scriptTarget)
     } catch (error) {
@@ -125,14 +125,14 @@ export class Extractor {
   /**
    * Normalizes user options
   */
-  private _normalizeOptions (options?: Partial<ExtractorOptions>): ExtractorOptions {
+  private normalizeOptions (options?: Partial<ExtractorOptions>): ExtractorOptions {
     return Object.assign({
       filename: 'anonymous',
       scriptTarget: ts.ScriptTarget.ES2018,
     }, options)
   }
 
-  private _isPublicMethod (expression: ts.MethodDeclaration): boolean {
+  private isPublicMethod (expression: ts.MethodDeclaration): boolean {
     if (!expression.modifiers) {
       return true
     }
@@ -148,7 +148,7 @@ export class Extractor {
   /**
    * Extracts public methods from the class declaration or class expression
    */
-  private _extractClassMethods (
+  private extractClassMethods (
     sourceFile: ts.SourceFile,
     expression: ts.ClassDeclaration | ts.ClassExpression,
   ): ExtractorOutput['methods'] {
@@ -156,7 +156,7 @@ export class Extractor {
       return ts.isMethodDeclaration(member)
         && member.name
         && ts.isIdentifier(member.name)
-        && this._isPublicMethod(member)
+        && this.isPublicMethod(member)
     }).map((member: ts.MethodDeclaration) => {
       return {
         name: (member.name as ts.Identifier).text,
@@ -168,7 +168,7 @@ export class Extractor {
   /**
    * Extracts methods from object literal
    */
-  private _extractObjectLiteralMethods (
+  private extractObjectLiteralMethods (
     sourceFile: ts.SourceFile,
     expression: ts.ObjectLiteralExpression,
   ): ExtractorOutput['methods'] {
@@ -186,14 +186,13 @@ export class Extractor {
    * Resolves the identifier by name by scanning all the top level statements
    * whose name matches the given identifier name
    */
-  private _resolveIdentifier (
+  private resolveIdentifier (
     sourceFile: ts.SourceFile,
     identifier: string,
   ): ts.Expression | ts.ClassDeclaration | null {
     for (let child of sourceFile.statements) {
       if (ts.isClassDeclaration(child) && child.name && child.name.text === identifier) {
         return child
-        break
       }
 
       if (ts.isVariableStatement(child)) {
@@ -203,7 +202,6 @@ export class Extractor {
 
         if (matchingDeclaration) {
           return matchingDeclaration.initializer || null
-          break
         }
       }
     }
@@ -227,7 +225,7 @@ export class Extractor {
    *
    * We need to get `UserController` by recursively parsing the BinaryExpression
    */
-  private _findBinaryExpressionBranch (
+  private findBinaryExpressionBranch (
     expression: ts.BinaryExpression,
     level = 0,
   ): ts.Expression | null {
@@ -236,7 +234,7 @@ export class Extractor {
     }
 
     if (ts.isBinaryExpression(expression.right)) {
-      return this._findBinaryExpressionBranch(expression.right, level++)
+      return this.findBinaryExpressionBranch(expression.right, level++)
     }
 
     return expression.right
@@ -248,28 +246,28 @@ export class Extractor {
    */
   public extract (source: string, options?: Partial<ExtractorOptions>): ExtractorOutput | null {
     source = source.trim()
-    const normalizedOptions = this._normalizeOptions(options)
+    const normalizedOptions = this.normalizeOptions(options)
 
     /**
      * Return cached response when source is same
      */
-    if (this._cache.has(source)) {
-      return this._cache.get(source)!
+    if (this.cache.has(source)) {
+      return this.cache.get(source)!
     }
 
     /**
      * Return null when unable to parse the source file.
      */
-    const sourceFile = this._createSourceFile(source, normalizedOptions)
+    const sourceFile = this.createSourceFile(source, normalizedOptions)
     if (!sourceFile) {
-      this._cache.set(source, null)
+      this.cache.set(source, null)
       return null
     }
 
     /**
      * Finding the export expression in top level statements
      */
-    let exportExpression = this._getExportExpression(sourceFile)
+    let exportExpression = this.getExportExpression(sourceFile)
     if (exportExpression && ts.isExportAssignment(exportExpression)) {
       exportExpression = exportExpression.expression
     }
@@ -279,7 +277,7 @@ export class Extractor {
      * in the source file, then we further resolve it
      */
     if (exportExpression && ts.isIdentifier(exportExpression)) {
-      exportExpression = this._resolveIdentifier(sourceFile, exportExpression.text)
+      exportExpression = this.resolveIdentifier(sourceFile, exportExpression.text)
     }
 
     /**
@@ -287,7 +285,7 @@ export class Extractor {
      * do allow 3 level deep assignment on a single expression
      */
     if (exportExpression && ts.isBinaryExpression(exportExpression)) {
-      exportExpression = this._findBinaryExpressionBranch(exportExpression)
+      exportExpression = this.findBinaryExpressionBranch(exportExpression)
     }
 
     /**
@@ -296,7 +294,7 @@ export class Extractor {
      * yet defined
      */
     if (!exportExpression) {
-      this._cache.set(source, null)
+      this.cache.set(source, null)
       return null
     }
 
@@ -305,8 +303,8 @@ export class Extractor {
      * class expression
      */
     if (ts.isClassExpression(exportExpression) || ts.isClassDeclaration(exportExpression)) {
-      const methods = this._extractClassMethods(sourceFile, exportExpression)
-      this._cache.set(source, { kind: 'class', methods })
+      const methods = this.extractClassMethods(sourceFile, exportExpression)
+      this.cache.set(source, { kind: 'class', methods })
       return { kind: 'class', methods }
     }
 
@@ -314,8 +312,8 @@ export class Extractor {
      * Extract object methods when it's an ObjectLiteralExpression
      */
     if (ts.isObjectLiteralExpression(exportExpression)) {
-      const methods = this._extractObjectLiteralMethods(sourceFile, exportExpression)
-      this._cache.set(source, { kind: 'object', methods })
+      const methods = this.extractObjectLiteralMethods(sourceFile, exportExpression)
+      this.cache.set(source, { kind: 'object', methods })
       return { kind: 'object', methods }
     }
 

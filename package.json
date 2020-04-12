@@ -6,13 +6,14 @@
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "node japaFile.js",
-    "lint": "tslint --project tsconfig.json",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
     "build": "npm run compile",
     "commit": "git-cz",
     "release": "np",
-    "version": "npm run build"
+    "version": "npm run build",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . --ext=.ts"
   },
   "repository": {
     "type": "git",
@@ -31,18 +32,19 @@
   "homepage": "https://github.com/poppinss/module-methods-extractor#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^2.3.0",
+    "@types/debug": "^4.1.5",
     "@types/node": "^13.11.1",
     "commitizen": "^4.0.4",
     "cz-conventional-changelog": "^3.1.0",
     "del-cli": "^3.0.0",
     "doctoc": "^1.4.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-adonis": "^1.0.9",
     "husky": "^4.2.5",
     "japa": "^3.0.1",
     "mrm": "^2.2.1",
-    "np": "^6.2.1",
+    "np": "^5.2.1",
     "ts-node": "^8.8.2",
-    "tslint": "^6.1.1",
-    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.8.3"
   },
   "nyc": {
@@ -71,9 +73,6 @@
     }
   },
   "dependencies": {
-    "@types/debug": "^4.1.5",
-    "acorn": "^7.1.1",
-    "acorn-walk": "^7.1.1",
     "debug": "^4.1.1",
     "quick-lru": "^5.1.0"
   },
