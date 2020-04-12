@@ -1,7 +1,7 @@
 {
   "name": "@poppinss/module-methods-extractor",
   "version": "1.0.1",
-  "description": "",
+  "description": "A package to extract methods from a Typescript or Javascript class",
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
