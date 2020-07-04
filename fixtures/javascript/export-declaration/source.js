@@ -1,7 +1,6 @@
 exports = class UserController {
-  get name () {
-  }
+	get name() {}
 
-  foo () {}
-  bar () {}
+	foo() {}
+	bar() {}
 }

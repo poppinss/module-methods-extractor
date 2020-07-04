@@ -1,4 +1,4 @@
 export default class UserController {
-  foo () {}
-  bar () {}
+	foo() {}
+	bar() {}
 }

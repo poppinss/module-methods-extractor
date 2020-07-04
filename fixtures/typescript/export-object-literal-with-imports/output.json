@@ -1,9 +1,9 @@
 {
-  "kind": "object",
-  "methods": [
-    {
-      "name": "foo",
-      "lineno": 4
-    }
-  ]
+	"kind": "object",
+	"methods": [
+		{
+			"name": "foo",
+			"lineno": 4
+		}
+	]
 }

@@ -1,83 +1,87 @@
 {
-  "name": "@poppinss/module-methods-extractor",
-  "version": "1.0.2",
-  "description": "A package to extract methods from a Typescript or Javascript class",
-  "scripts": {
-    "mrm": "mrm --preset=@adonisjs/mrm-preset",
-    "pretest": "npm run lint",
-    "test": "node japaFile.js",
-    "clean": "del build",
-    "compile": "npm run lint && npm run clean && tsc",
-    "build": "npm run compile",
-    "commit": "git-cz",
-    "release": "np",
-    "version": "npm run build",
-    "prepublishOnly": "npm run build",
-    "lint": "eslint . --ext=.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poppinss/module-methods-extractor.git"
-  },
-  "keywords": [
-    "ast",
-    "acorn",
-    "typescript"
-  ],
-  "author": "virk,poppinss",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/poppinss/module-methods-extractor/issues"
-  },
-  "homepage": "https://github.com/poppinss/module-methods-extractor#readme",
-  "devDependencies": {
-    "@adonisjs/mrm-preset": "^2.3.6",
-    "@types/debug": "^4.1.5",
-    "@types/node": "^14.0.14",
-    "commitizen": "^4.1.2",
-    "cz-conventional-changelog": "^3.2.0",
-    "del-cli": "^3.0.1",
-    "doctoc": "^1.4.0",
-    "eslint": "^7.4.0",
-    "eslint-plugin-adonis": "^1.0.14",
-    "husky": "^4.2.5",
-    "japa": "^3.1.1",
-    "mrm": "^2.3.3",
-    "np": "^6.2.5",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.6"
-  },
-  "nyc": {
-    "exclude": [
-      "test"
-    ],
-    "extension": [
-      ".ts"
-    ]
-  },
-  "main": "build/index.js",
-  "files": [
-    "build/src",
-    "build/index.d.ts",
-    "build/index.js"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "doctoc README.md --title='## Table of contents' && git add README.md",
-      "commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
-  "dependencies": {
-    "debug": "^4.1.1",
-    "quick-lru": "^5.1.1"
-  },
-  "np": {
-    "contents": ".",
-    "anyBranch": false
-  }
+	"name": "@poppinss/module-methods-extractor",
+	"version": "1.0.2",
+	"description": "A package to extract methods from a Typescript or Javascript class",
+	"scripts": {
+		"mrm": "mrm --preset=@adonisjs/mrm-preset",
+		"pretest": "npm run lint",
+		"test": "node japaFile.js",
+		"clean": "del build",
+		"compile": "npm run lint && npm run clean && tsc",
+		"build": "npm run compile",
+		"commit": "git-cz",
+		"release": "np",
+		"version": "npm run build",
+		"prepublishOnly": "npm run build",
+		"lint": "eslint . --ext=.ts",
+		"format": "prettier --write ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/poppinss/module-methods-extractor.git"
+	},
+	"keywords": [
+		"ast",
+		"acorn",
+		"typescript"
+	],
+	"author": "virk,poppinss",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/poppinss/module-methods-extractor/issues"
+	},
+	"homepage": "https://github.com/poppinss/module-methods-extractor#readme",
+	"devDependencies": {
+		"@adonisjs/mrm-preset": "^2.3.6",
+		"@types/debug": "^4.1.5",
+		"@types/node": "^14.0.14",
+		"commitizen": "^4.1.2",
+		"cz-conventional-changelog": "^3.2.0",
+		"del-cli": "^3.0.1",
+		"doctoc": "^1.4.0",
+		"eslint": "^7.4.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-adonis": "^1.0.14",
+		"eslint-plugin-prettier": "^3.1.4",
+		"husky": "^4.2.5",
+		"japa": "^3.1.1",
+		"mrm": "^2.3.3",
+		"np": "^6.2.5",
+		"prettier": "^2.0.5",
+		"ts-node": "^8.10.2",
+		"typescript": "^3.9.6"
+	},
+	"nyc": {
+		"exclude": [
+			"test"
+		],
+		"extension": [
+			".ts"
+		]
+	},
+	"main": "build/index.js",
+	"files": [
+		"build/src",
+		"build/index.d.ts",
+		"build/index.js"
+	],
+	"husky": {
+		"hooks": {
+			"pre-commit": "doctoc README.md --title='## Table of contents' && git add README.md",
+			"commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
+		}
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	},
+	"dependencies": {
+		"debug": "^4.1.1",
+		"quick-lru": "^5.1.1"
+	},
+	"np": {
+		"contents": ".",
+		"anyBranch": false
+	}
 }

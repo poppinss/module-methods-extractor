@@ -1,6 +1,6 @@
 const user = class UserController {
-  foo () {}
-  bar () {}
+	foo() {}
+	bar() {}
 }
 
 module.exports = user

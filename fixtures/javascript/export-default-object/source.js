@@ -1,5 +1,5 @@
 export default {
-  name: 'virk',
-  foo () {},
-  bar () {}
+	name: 'virk',
+	foo() {},
+	bar() {},
 }

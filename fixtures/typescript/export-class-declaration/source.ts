@@ -1,7 +1,7 @@
 export default class UserController {
-  public foo () {
-    return this.bar()
-  }
+	public foo() {
+		return this.bar()
+	}
 
-  private bar () {}
+	private bar() {}
 }

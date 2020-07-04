@@ -1,5 +1,5 @@
 import 'typescript'
 
 export default {
-  foo () {},
+	foo() {},
 }
