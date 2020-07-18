@@ -1,6 +1,6 @@
 {
 	"name": "@poppinss/module-methods-extractor",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "A package to extract methods from a Typescript or Javascript class",
 	"main": "build/index.js",
 	"files": [
