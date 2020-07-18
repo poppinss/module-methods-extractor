@@ -1,5 +1,9 @@
+<div align="center">
+	<img src="https://res.cloudinary.com/adonisjs/image/upload/q_100/v1557762307/poppinss_iftxlt.jpg" width="600px">
+</div>
+
 # Module methods exporter
-> Returns a list of method names and line number for a Javascript or Typescript module. 
+> Returns a list of method names and line number for a JavaScript or TypeScript module. 
 
 [![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url] [![audit-report-image]][audit-report-url]
 
