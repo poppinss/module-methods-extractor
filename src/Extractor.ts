@@ -98,7 +98,8 @@ export class Extractor {
 		 * Look for commonJs style module.exports and exports
 		 */
 		for (let statement of source.statements) {
-			expression = this.findCommonJsExportExpression(statement) || this.findEsmExportExpression(statement)
+			expression =
+				this.findCommonJsExportExpression(statement) || this.findEsmExportExpression(statement)
 			if (expression) {
 				break
 			}
@@ -138,7 +139,10 @@ export class Extractor {
 		}
 
 		return !expression.modifiers.find((modifier) => {
-			return modifier.kind === ts.SyntaxKind.PrivateKeyword || modifier.kind === ts.SyntaxKind.ProtectedKeyword
+			return (
+				modifier.kind === ts.SyntaxKind.PrivateKeyword ||
+				modifier.kind === ts.SyntaxKind.ProtectedKeyword
+			)
 		})
 	}
 
@@ -152,7 +156,10 @@ export class Extractor {
 		return expression.members
 			.filter((member) => {
 				return (
-					ts.isMethodDeclaration(member) && member.name && ts.isIdentifier(member.name) && this.isPublicMethod(member)
+					ts.isMethodDeclaration(member) &&
+					member.name &&
+					ts.isIdentifier(member.name) &&
+					this.isPublicMethod(member)
 				)
 			})
 			.map((member: ts.MethodDeclaration) => {
@@ -186,7 +193,10 @@ export class Extractor {
 	 * Resolves the identifier by name by scanning all the top level statements
 	 * whose name matches the given identifier name
 	 */
-	private resolveIdentifier(sourceFile: ts.SourceFile, identifier: string): ts.Expression | ts.ClassDeclaration | null {
+	private resolveIdentifier(
+		sourceFile: ts.SourceFile,
+		identifier: string
+	): ts.Expression | ts.ClassDeclaration | null {
 		for (let child of sourceFile.statements) {
 			if (ts.isClassDeclaration(child) && child.name && child.name.text === identifier) {
 				return child
@@ -222,7 +232,10 @@ export class Extractor {
 	 *
 	 * We need to get `UserController` by recursively parsing the BinaryExpression
 	 */
-	private findBinaryExpressionBranch(expression: ts.BinaryExpression, level = 0): ts.Expression | null {
+	private findBinaryExpressionBranch(
+		expression: ts.BinaryExpression,
+		level = 0
+	): ts.Expression | null {
 		if (level === 3) {
 			return null
 		}
