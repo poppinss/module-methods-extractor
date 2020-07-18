@@ -1,7 +1,7 @@
 # Module methods exporter
 > Returns a list of method names and line number for a Javascript or Typescript module. 
 
-[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]
+[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url] [![audit-report-image]][audit-report-url]
 
 This module is used by the AdonisJs VsCode extension to show an autocomplete list of controller methods, event listeners and so on.
 
@@ -102,3 +102,6 @@ In the above example, The `UsersController` is an actual module that has a `defa
 
 [license-url]: LICENSE.md
 [license-image]: https://img.shields.io/github/license/poppinss/module-methods-extractor?style=for-the-badge
+
+[audit-report-image]: https://img.shields.io/badge/-Audit%20Report-blueviolet?style=for-the-badge
+[audit-report-url]: https://htmlpreview.github.io/?https://github.com/poppinss/module-methods-extractor/blob/develop/npm-audit.html "audit-report"
